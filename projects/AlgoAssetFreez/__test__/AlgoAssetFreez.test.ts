@@ -18,11 +18,13 @@ describe('AlgoAssetFreez', () => {
     await fixture.beforeEach();
     const { algorand } = fixture;
 
+    // create accountA
     await getOrCreateKmdWalletAccount(
       { name: 'accountA', fundWith: algos(10) },
       algorand.client.algod,
       algorand.client.kmd
     );
+    // Create accountB
     await getOrCreateKmdWalletAccount(
       { name: 'accountB', fundWith: algos(10) },
       algorand.client.algod,
@@ -39,7 +41,7 @@ describe('AlgoAssetFreez', () => {
     assetId = assetCreated.confirmation.assetIndex!
   });
 
-  test('OptIn accountB', async () => {
+  test('Script test', async () => {
     const { algorand } = fixture;
     const accountA = await algorand.account.fromKmd('accountA');
     const accountB = await algorand.account.fromKmd('accountB');
@@ -49,14 +51,8 @@ describe('AlgoAssetFreez', () => {
       sender: accountB.addr,
     })
     console.log("accountB opted In ")
-  });
 
-  test('SendAndFreezAsset', async () => {
-    const { algorand } = fixture;
-    const accountA = await algorand.account.fromKmd('accountA');
-    const accountB = await algorand.account.fromKmd('accountB');
-
-    // Send asset transfer
+    // Transfer 1 assset to accountB
     await algorand.send.assetTransfer({
       assetId: BigInt(assetId),
       sender: accountA.addr,
@@ -81,4 +77,5 @@ describe('AlgoAssetFreez', () => {
     expect(AccountB_Balance).toBe(1n);
     console.log("accountB Asset balance = "+AccountB_Balance)
   });
+
 });
