@@ -5,12 +5,9 @@ import {
   algos,
   getOrCreateKmdWalletAccount,
 } from '@algorandfoundation/algokit-utils';
-import { AlgoAssetFreezClient } from '../contracts/clients/AlgoAssetFreezClient';
 
 const fixture = algorandFixture();
 algokit.Config.configure({ populateAppCallResources: true });
-
-let appClient: AlgoAssetFreezClient;
 
 describe('AlgoAssetFreez', () => {
   beforeEach(fixture.beforeEach);
@@ -19,7 +16,6 @@ describe('AlgoAssetFreez', () => {
 
   beforeAll(async () => {
     await fixture.beforeEach();
-    const { testAccount } = fixture.context;
     const { algorand } = fixture;
 
     await getOrCreateKmdWalletAccount(
@@ -34,15 +30,6 @@ describe('AlgoAssetFreez', () => {
     );
     const accountA = await algorand.account.fromKmd('accountA');
 
-    appClient = new AlgoAssetFreezClient(
-      {
-        sender: accountA,
-        resolveBy: 'id',
-        id: 0,
-      },
-      algorand.client.algod
-    );
-
     //Creat asset
     const assetCreated = await algorand.send.assetCreate({
       sender: accountA.addr,
@@ -50,12 +37,11 @@ describe('AlgoAssetFreez', () => {
       freeze: accountA.addr,// this is saying that the given addr i.e this AccountA can freez/unfreez asset of any account using/having the token
     });
     assetId = assetCreated.confirmation.assetIndex!
-
-    await appClient.create.createApplication({});
   });
 
   test('OptIn accountB', async () => {
     const { algorand } = fixture;
+    const accountA = await algorand.account.fromKmd('accountA');
     const accountB = await algorand.account.fromKmd('accountB');
     // optin accountB to the asset (assetId)
     await algorand.send.assetOptIn({
