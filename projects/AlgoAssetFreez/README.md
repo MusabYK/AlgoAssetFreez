@@ -1,10 +1,15 @@
-# TEALScript Project
+# DaoWakanda Freez Challenge
+This is the AlgorandJavascript SDK that performs the following actions:
+- Create two accounts, A & B
+- Fund the two accounts with 10 algos each
+- Using account A, create an Algorand Standard Asset (ASA)
+- Opt account B into the new ASA
+- Transfer 1 unit of the ASA from account A to account B
+- Freeze the ASA in account B
 
-## Documentation
-
-For TEALScript documentation, go to https://tealscript.algo.xyz
-
-## Usage
+## How to run it
+1. Execute the tests defined in [./\_\_test\_\_](./__test__) by running test
+2. run test in the contract folder terminal (AlgoAsset\projects\OwnershipTransfer>)
 
 ### Algokit
 
@@ -18,7 +23,7 @@ This template assumes you have a local network running on your machine. The easi
 
 ### Run Tests
 
-`npm run test` will execute the tests defined in [./\_\_test\_\_](./__test__) 
+`npm run test` will execute the tests defined in [./\_\_test\_\_](./__test__)
 
 ### Lint
 
